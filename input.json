@@ -1,0 +1,26 @@
+{
+    "default_settings": {
+        "output_type": "video",
+        "video_resolution": "320x240",
+        "background_rgb": "200,200,200",
+        "emotion": "happy",
+        "emotion_level": 1.0,
+        "actor": "james"
+    },
+    "samples": {
+        "1": {
+            "language": "en-US",
+            "text": "I am powered by Emotech's revolutionary A.I. technology",
+            "camera": 0
+        },
+        "2": {
+            "language": "ar",
+            "actor": "laura",
+            "text": "أنا مدعوم بتقنية الذكاء الاصطناعي الثورية من Emotech",
+            "camera": 7,
+            "background_rgb": "150,120,180",
+            "emotion": "sad",
+            "emotion_level": 0.5
+        }
+    }
+}
