@@ -1,6 +1,6 @@
 # Avatar Video Generation with Sync-AI
 
-The `SyncAiVideoClient` class in `video_client.py` provides a client for the Emotech Sync AI Platform API. To generate content using the API a user needs their token, which can be found in the `Account Settings` section on [the website](https://lipsync-ai.bubbleapps.io/). 
+The `SyncAiVideoClient` class in `video_client.py` provides a client for the Emotech Sync AI Platform API to generate avatar videos. To generate content using the API a user needs their token, which can be found in the `Account Settings` section on [the website](https://lipsync-ai.bubbleapps.io/). 
 
 For a detailed overview of the arguments please see the [API Documentation]().
 
@@ -23,12 +23,12 @@ python single_request.py --languge en-US --token USERS_TOKEN --output_file my_vi
 
 Using an audio file that is on the local machine. The `text` transcript should match the audio in the file:
 ```
-python single_request.py --languge en-US --token USERS_TOKEN --output_file my_video.mp4 --output_type video --audio_file /local/path/to/audio_file.wav --text "A text for the sync AI platform"
+python single_request.py --languge en-US --token USERS_TOKEN --output_file my_video.mp4 --audio_file /local/path/to/audio_file.wav --text "A text for the sync AI platform"
 ```
 
 Using a url to an audio file that is on the local machine. The `text` transcript should match the audio in the file:
 ```
-python single_request.py --languge en-US --token USERS_TOKEN --output_file my_video.mp4 --output_type video --audio_url https://www.awebsite.com/audio_file.wav --text "A text for the sync AI platform"
+python single_request.py --languge en-US --token USERS_TOKEN --output_file my_video.mp4 --audio_url https://www.awebsite.com/audio_file.wav --text "A text for the sync AI platform"
 ```
 
 
@@ -39,3 +39,5 @@ python single_request.py --languge en-US --token USERS_TOKEN --output_file my_vi
 ```
 python multiple_requests_from_file.py --token USERS_TOKEN --input_file inputs.json
 ```
+
+In the above example, a json file of service responses will be saved to `inputs_results.json`.

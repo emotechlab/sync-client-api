@@ -4,6 +4,15 @@ from tqdm import tqdm
 import requests
 
 
+def file_extension_from_output_type(output_type):
+    if output_type == "video":
+        return ".mp4"
+    elif output_type == "csv":
+        return ".csv"
+    elif output_type == "fbx":
+        return ".fbx"
+    return None
+
 def get_tts_params(voice=None, speed=None):
     tts_params =  {
         "engine": "Google",
@@ -18,19 +27,20 @@ def get_tts_params(voice=None, speed=None):
     return tts_params
 
 
-class SyncAiVideoClient():
+class SyncAiAnimationClient:
 
     def __init__(self, token, url=None):
         if not url:
             self.url = "https://lipsync-ai.emotechlab.com/lipsync/"
         
         self.token = token
-        self.valid_fields = ['language', 'actor', 'text', 'camera', 'background_rgb', 'sentences_file', 'tts_voice', 'tts_speed', 'target_rig', 'audio_url', 'audio_file', 'emotion', 'emotion_level', 'token', 'frame_height', 'frame_width', 'output_dir', 'output_file']
+
+        self.valid_fields = ['language', 'actor', 'text', 'camera', 'background_rgb', 'sentences_file', 'tts_voice', 'tts_speed', 'target_rig', 'audio_url', 'audio_file', 'emotion', 'emotion_level', 'token', 'output_type', 'video_resolution', 'output_dir']
 
     def check_status(self, job_id):
         resp = requests.get(os.path.join(self.url, f"status?jobId={job_id}&token={self.token}"))
         return resp.json()
-    
+
     def download_content(self, job_id, save_file):
         # check status in a loop until a 'finished' status is returned then download the video
         # file extension of save_file must match the output type of the request
@@ -55,9 +65,10 @@ class SyncAiVideoClient():
 
         return None
 
+    def generate(self, text, language, target_rig, tts_voice=None, tts_speed=None, audio_url=None, audio_file=None, emotion="", emotion_level=1, output_type="csv", display=False):
         
-    def generate(self, text, language, target_rig, actor=None, camera=None, tts_voice=None, tts_speed=None, background_rgb=None, audio_url=None, audio_file=None, emotion="", emotion_level=1, frame_width=None, frame_height=None, display=False):
-        # Sends a request to generate a video.
+        if output_type not in ["csv", "fbx"]:
+            raise Exception("Invalid output type. Must be either 'csv' or 'fbx'")
 
         if audio_url and audio_file:
             raise Exception("Only one of audio_file or audio_url should be supplied.")
@@ -70,37 +81,15 @@ class SyncAiVideoClient():
                 "expression": emotion
             }
         
-        # set background color
-        background_color = None
-        if background_rgb:
-            red, green, blue = background_rgb.split(",")
-            background_color = {
-                "red": int(red),
-                "green": int(green),
-                "blue": int(blue),
-            }
-
-        output = {
-            "type": "video",
-            "width": frame_width,
-            "height": frame_height,
-            "background_color": background_color
-        }
-    
+        # try:
         job = {
             "target_rig": target_rig,
             "text": text,
             "language": language,
             "tts_params": get_tts_params(tts_voice, tts_speed),
-            "output": output,
+            "output": {"type": output_type},
             "wait_time": None,
         }
-
-        if actor:
-            job["actor"] = actor
-
-        if camera is not None:
-            job["camera"] = camera
 
         if emotion_obj:
             job["emotion"] = emotion_obj
@@ -180,8 +169,6 @@ class SyncAiVideoClient():
         required_fields = ["text", "language", "output_file", "target_rig"]
         # send requests
         for i, args_dictionary in tqdm(enumerate(input_samples["jobs"])):
-            # target rig is always metahumans for generating video content
-            args_dictionary["target_rig"] = "metahumans"
             for field in required_fields:
                 if field not in args_dictionary:
                     raise Exception("Input sample {} is missing {} field".format(i, field))
