@@ -57,15 +57,17 @@ class SyncAiClient:
     def download_content(self, job_id, save_file):
         # check status in a loop until it is complete and then download the content
         while True:
-            status = self.check_status(job_id, self.token)
-            if status["message"] == "finished":
+            status = self.check_status(job_id)
+            print(status)
+            if status["status"] == "finished":
                 break
-            elif status["message"] == "failed":
+            elif status["status"] == "failed":
                 print("Job {} failed with: {}".format(job_id, status))
                 return status
         resp = requests.get(os.path.join(self.url, f"download?jobId={job_id}&token={self.token}"))
-        
-        if resp.status_code is not 200:
+        print(resp.status_code)
+        print(resp.json())
+        if resp.status_code != 200:
             print("Download failed: ", resp)
         else:
             # File is returned in bytes in the response
@@ -130,20 +132,14 @@ class SyncAiClient:
 
         print(job)
         if audio_file:
-            headers = {'Content-Type': 'application/json'}
-            print(job)
             with open(audio_file, "rb") as fp:
                 resp = requests.post(
                     os.path.join(self.url, f"generate?token={self.token}"), 
                     files={"audio": fp, "job": json.dumps(job, indent=2).encode('utf-8')}
                 )
-                print(resp.json())
         else: 
             resp = requests.post(os.path.join(self.url, f"generate?token={self.token}"), json=job)
-        # except sp.CalledProcessError:
-        #     resp = None
-
-        print(resp.json())
+    
         if not resp:
             response = {"error": "curl request failed"}
         else:
@@ -154,27 +150,37 @@ class SyncAiClient:
 
         return response
 
-    def generate_and_download_from_file(self, save_dir, input_file):
+    def generate_and_download_from_file(self, input_file):
         """ 
-        input_file should be a json with sample labels/ids (eg 1, 2, 3..) and a dictionary of settings/arguments to use for that sample
+        input_file should be a json with a "jobs" field containing a list of settings/arguments to use for each sample
+        Each sample must have a "language", "text", and "output_file" fields. If "output_type" is "video" (which is default),
+        then the "camera" and "actor" field must be supplied as well.
         eg.
         {
-            "1": {
-                "language": "en-US",
-                "actor": "james",
-                "text": "I am powered by Emotech's revolutionary A.I. technology",
-                "camera": 0,
-                "background_rgb": "200,200,200",
-                "emotion": "happy",
-                "expression_level": 1.0
-
-            },
-            ...
+            "jobs": [
+                {
+                    "language": "en-US",
+                    "text": "I am powered by Emotech's revolutionary A.I. technology",
+                    "camera": 0,
+                    "actor": "caprica",
+                    "output_file": "/path/to/my_video.mp4"
+                },
+                {
+                    "language": "ar",
+                    "actor": "laura",
+                    "text": "أنا مدعوم بتقنية الذكاء الاصطناعي الثورية من Emotech",
+                    "camera": 7,
+                    "background_rgb": "150,120,180",
+                    "emotion": "sad",
+                    "emotion_level": 0.5,
+                    "output_file": "/path/to/my_video2.mp4"
+                },
+                ...
+            ]
         }
 
         - Generate method responses are saved in a json file in the save_dir 
         with the same name as the input file with '_results' appended to the end.
-        - Generated content is downloaded to save_dir labelled with the sample id.
 
         ** NOTE **
         This function waits for each video to be generated, then downloaded before sending the next request
@@ -182,47 +188,30 @@ class SyncAiClient:
         with open(input_file, "r") as json_file:
             input_samples = json.load(json_file)
 
-        if "samples" not in input_samples:
-            raise Exception("Input json file incorrect format, needs \"samples\" field")
+        if "jobs" not in input_samples:
+            raise Exception("Input json file incorrect format, needs \"jobs\" field")
 
         # prepare results file
         results_file = f"{os.path.splitext(input_file)[0]}_results.json"
         if not os.path.exists(results_file):
             open(results_file, 'a').close()
-        
-        # default arguments for required fields 
-        # These will be overridden by values for each sample in the sentences file
-        default_args = {
-            "target_rig": "metahumans", 
-            "token": self.token, 
-        }
-        if "default_settings" in input_samples:
-            for arg, value in input_samples["default_arg_names"].items():
-                if arg not in self.valid_fields:
-                    raise Exception("Default arg name {} not valid, must be one of {}".format(arg, self.valid_fields))
-                default_args[arg] = value
-            
-
-        results = {}
-        
+    
+        results = {}    
+        required_fields = ["text", "language", "output_file"]
         # send requests
         for sample_id, args_dictionary in tqdm(input_samples["samples"].items()):
-            args = default_args
-            if "text" not in args_dictionary:
-                raise Exception("Input sample {} is missing text field".format(sample_id))
-            for key, value in args_dictionary.items():
+            for field in required_fields:
+                if field not in args_dictionary:
+                    raise Exception("Input sample {} is missing {} field".format(sample_id, field))
+            
+            for key, _ in args_dictionary.items():
                 if key not in self.valid_fields:
                     raise Exception("Input sample {} has invalid field: {}".format(sample_id, key))
-                args[key] = value
 
-            response = self.send_request(**args)
+            response = self.send_request(args_dictionary)
             results[sample_id] = response
 
-            output_type = None
-            if "output_type" in args:
-                output_type = args["output_type"]
-
-            save_file = os.path.join(save_dir, sample_id + file_extension_from_output_type(output_type))
+            save_file = os.path.join(args_dictionary["output_file"])
             status = self.download_content(response["jobId"], save_file)
 
             # if content download fails, save it to the results dictionary
