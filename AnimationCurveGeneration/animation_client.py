@@ -56,22 +56,27 @@ class SyncAiAnimationClient:
         download_file = job_id + "." + save_file.split(".")[-1]
         resp = requests.get(os.path.join(self.url, f"download?fileName={download_file}&token={self.token}"))
 
-        if resp.apparent_encoding:
-            print("Download failed: ", resp.json())
-        else:
+        try: 
+            # Download failed if the response is json
+            resp_json = resp.json()
+            print("Download failed: ", resp_json)
+        except:
             # File is returned in bytes in the response
             with open(save_file, "wb") as fp:
                 fp.write(resp.content)
 
         return None
 
-    def generate(self, text, language, target_rig, tts_voice=None, tts_speed=None, audio_url=None, audio_file=None, emotion="", emotion_level=1, output_type="csv", display=False):
+    def generate(self, text, language, target_rig, tts_voice=None, tts_speed=None, audio_url=None, audio_file=None, emotion="", emotion_level=1, output_type="csv", actor=None, display=False):
         
         if output_type not in ["csv", "fbx"]:
             raise Exception("Invalid output type. Must be either 'csv' or 'fbx'")
 
         if audio_url and audio_file:
             raise Exception("Only one of audio_file or audio_url should be supplied.")
+
+        if not actor and not tts_voice and not audio_url and not audio_file:
+            raise Exception("At least one of actor, tts_voice, audio_url, or audio_file must be supplied.")
 
         # set emotion and level
         emotion_obj = None
@@ -81,12 +86,12 @@ class SyncAiAnimationClient:
                 "expression": emotion
             }
         
-        # try:
         job = {
             "target_rig": target_rig,
             "text": text,
             "language": language,
             "tts_params": get_tts_params(tts_voice, tts_speed),
+            "actor": actor,
             "output": {"type": output_type},
             "wait_time": None,
         }
