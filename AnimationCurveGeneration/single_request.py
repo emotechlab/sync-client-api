@@ -34,7 +34,7 @@ if __name__ == '__main__':
     parser.add_argument('--tts_voice', type=str, default=None, help="Voice of tts - consult googles TTS API documentation for options")
     parser.add_argument('--tts_speed', type=float, default=None, help="Speed of the speech, range: 0.0-1.0. 1.0 is 100% speed")
     parser.add_argument('--target_rig', type=str, default="metahumans", choices=["metahumans", "arkit"],
-                        help="specifies which required rig. For the video renderer only metahumans is accepted. For FBX output we currently only accept arkit")
+                        help="Specifies which required rig. For the video renderer only metahumans is accepted. For FBX output we currently only accept arkit")
     parser.add_argument('--audio_url', type=str, default=None, help="Either a HTTP, S3 or OBS URL that points to an audio file to be downloaded by the engine") 
     parser.add_argument('--audio_file', type=str, default=None, help="Local path for audio file to send to the engine") 
     parser.add_argument('--emotion', type=str, default=None, choices=["neutral", "happy", "sad", "surprise", "fear", "disappointed"], help="Apply emotion expression to avatar") 

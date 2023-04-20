@@ -4,8 +4,9 @@
             "language": "en-US",
             "text": "I am powered by Emotech's revolutionary A.I. technology",
             "actor": "female",
+            "target_rig": "metahumans",
             "output_type": "csv",
-            "output_file": "/path/to/animation_curve.csv"
+            "output_file": "animation_curve.csv"
         },
         {
             "language": "ar",
@@ -15,7 +16,7 @@
             "emotion_level": 0.5,
             "output_type": "fbx",
             "target_rig": "arkit",
-            "output_file": "/path/to/my_animation.fbx"
+            "output_file": "my_animation.fbx"
         }
     ]
 }
