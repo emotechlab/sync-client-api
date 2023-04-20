@@ -181,7 +181,7 @@ class SyncAiVideoClient():
         results = {}    
         required_fields = ["text", "language", "output_file", "target_rig"]
         # send requests
-        for i, args_dictionary in tqdm(enumerate(input_samples["jobs"])):
+        for i, args_dictionary in tqdm(enumerate(input_samples["jobs"]), total=len(input_samples["jobs"])):
             # target rig is always metahumans for generating video content
             args_dictionary["target_rig"] = "metahumans"
             for field in required_fields:

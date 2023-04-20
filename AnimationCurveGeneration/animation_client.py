@@ -173,7 +173,7 @@ class SyncAiAnimationClient:
         results = {}    
         required_fields = ["text", "language", "output_file", "target_rig"]
         # send requests
-        for i, args_dictionary in tqdm(enumerate(input_samples["jobs"])):
+        for i, args_dictionary in tqdm(enumerate(input_samples["jobs"]), total=len(input_samples["jobs"])):
             for field in required_fields:
                 if field not in args_dictionary:
                     raise Exception("Input sample {} is missing {} field".format(i, field))
