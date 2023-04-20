@@ -3,12 +3,14 @@
         {
             "language": "en-US",
             "text": "I am powered by Emotech's revolutionary A.I. technology",
+            "actor": "female",
             "output_type": "csv",
             "output_file": "/path/to/animation_curve.csv"
         },
         {
             "language": "ar",
             "text": "أنا مدعوم بتقنية الذكاء الاصطناعي الثورية من Emotech",
+            "actor": "male",
             "emotion": "sad",
             "emotion_level": 0.5,
             "output_type": "fbx",
