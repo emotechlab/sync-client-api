@@ -29,7 +29,7 @@ if __name__ == '__main__':
     parser.add_argument('--language', type=str, help='Language of the text. See API docs for available language codes', required=True)
     parser.add_argument('--token', type=str, required=True, help='User token tied to the account - it is used to validate the user identity.')
     parser.add_argument('--text', type=str, help='Text for avatar to speak', required=True)
-    parser.add_argument('--output_file', type=str, required=True, help='Folder to save generated content to.')
+    parser.add_argument('--output_file', type=str, required=True, help='File to save generated content to.')
     parser.add_argument('--actor', type=str, default=None, choices=['male', 'female', 'caprica', 'annie', 'simone', 'vi', 'mario', 'troy', 'valerio', 'danbing', 'lewis', 'laura', 'liz', 'jeremy', 'james'], help="Name of the actors voice to use. This field is not required if an audio file is provided or tts voice is set.")
     parser.add_argument('--tts_voice', type=str, default=None, help="Voice of tts - consult googles TTS API documentation for options")
     parser.add_argument('--tts_speed', type=float, default=None, help="Speed of the speech, range: 0.0-1.0. 1.0 is 100% speed")

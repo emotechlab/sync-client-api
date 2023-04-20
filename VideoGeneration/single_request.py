@@ -32,7 +32,7 @@ if __name__ == '__main__':
     parser.add_argument('--language', type=str, required=True, help='Language of the text. See API docs for available language codes')
     parser.add_argument('--token', type=str, required=True, help='User token tied to the account - it is used to validate the user identity.')
     parser.add_argument('--text', type=str, required=True, help='Text for avatar to speak')
-    parser.add_argument('--output_file', type=str, required=True, help='Folder to save generated content to.')
+    parser.add_argument('--output_file', type=str, required=True, help='File to save generated content to.')
     parser.add_argument('--actor', type=str, default="caprica", choices=['caprica', 'annie', 'simone', 'vi', 'mario', 'troy', 'valerio', 'danbing', 'lewis', 'laura', 'liz', 'jeremy', 'james'], help='Actor to use in rendered video. See API documentation for more details')
     parser.add_argument('--camera', type=int, help='Camera ID', choices=[0, 1, 2, 6, 7], default=0)
     parser.add_argument('--background_rgb', type=str, help='Comma-separated RGB values for the background, eg. 120,200,120')
