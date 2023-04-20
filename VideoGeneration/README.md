@@ -34,7 +34,7 @@ python single_request.py --language en-US --token USERS_TOKEN --output_file my_v
 
 ### Multiple Requests from file
 
-[inputs.json](inputs.json) is example json file specifying multiple jobs, which can be used with the client as shown in the example below. 
+[inputs.json](inputs.json) is an example json file specifying multiple jobs, which can be used with the client as shown in the example below. 
 
 ```
 python multiple_requests_from_file.py --token USERS_TOKEN --input_file inputs.json
