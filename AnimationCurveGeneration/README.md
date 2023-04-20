@@ -16,19 +16,19 @@ When using `single_request.py` the generated file will be saved to the `output_f
 
 Some examples of usage of `single_requests.py` are shown below:
 ```
-python single_request.py --languge en-US --token USERS_TOKEN --output_file animation_curve.csv --output_type csv --text "A text for the sync AI platform"
+python single_request.py --language en-US --token USERS_TOKEN --output_file animation_curve.csv --output_type csv --text "A text for the sync AI platform" --actor female
 
-python single_request.py --languge en-US --token USERS_TOKEN --output_file animation_curve.fbx --output_type fbx --emotion happy --emotion_level 1 --text "A text for the sync AI platform"
+python single_request.py --language en-US --token USERS_TOKEN --output_file animation_curve.fbx --output_type fbx --emotion happy --emotion_level 1 --text "A text for the sync AI platform" --actor male
 ```
 
 Using an audio file that is on the local machine. The `text` transcript should match the audio in the file:
 ```
-python single_request.py --languge en-US --token USERS_TOKEN --output_file animation_curve.csv --output_type csv --audio_file /local/path/to/audio_file.wav --text "A text for the sync AI platform"
+python single_request.py --language en-US --token USERS_TOKEN --output_file animation_curve.csv --output_type csv --audio_file /local/path/to/audio_file.wav --text "A text for the sync AI platform"
 ```
 
 Using a url to an audio file that is on the local machine. The `text` transcript should match the audio in the file:
 ```
-python single_request.py --languge en-US --token USERS_TOKEN --output_file animation_curve.csv --output_type csv --audio_url https://www.awebsite.com/audio_file.wav --text "A text for the sync AI platform"
+python single_request.py --language en-US --token USERS_TOKEN --output_file animation_curve.csv --output_type csv --audio_url https://www.awebsite.com/audio_file.wav --text "A text for the sync AI platform"
 ```
 
 
