@@ -18,7 +18,7 @@ Some examples of usage of `single_requests.py` are shown below:
 ```
 python single_request.py --language en-US --token USERS_TOKEN --output_file my_video.mp4 --text "A text for the sync AI platform"
 
-python single_request.py --language en-US --token USERS_TOKEN --output_file my_video.mp4 --actor vi --camera 7 --background_rgb 130,20,250 --emotion happy --emotion_level 1 --video_resolution 1920x1080 --text "A text for the sync AI platform"
+python single_request.py --language en-US --token USERS_TOKEN --output_file my_video.mp4 --actor vi --camera 7 --background_rgb 130,20,250 --emotion happy --emotion_level 1 --frame_width 1920 --frame_height 1080 --text "A text for the sync AI platform"
 ```
 
 Using a url to an audio file hosted online. The `text` transcript should match the audio in the file:
