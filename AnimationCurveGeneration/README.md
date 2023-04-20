@@ -26,7 +26,7 @@ Using an audio file that is on the local machine. The `text` transcript should m
 python single_request.py --language en-US --token USERS_TOKEN --output_file animation_curve.csv --output_type csv --audio_file /local/path/to/audio_file.wav --text "A text for the sync AI platform"
 ```
 
-Using a url to an audio file that is on the local machine. The `text` transcript should match the audio in the file:
+Using a url to an audio file hosted online. The `text` transcript should match the audio in the file:
 ```
 python single_request.py --language en-US --token USERS_TOKEN --output_file animation_curve.csv --output_type csv --audio_url https://www.awebsite.com/audio_file.wav --text "A text for the sync AI platform"
 ```
