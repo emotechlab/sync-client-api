@@ -8,6 +8,12 @@ For a detailed overview of the arguments please see the [API Documentation]().
 
 # Usage
 
+Create a virtual environment and install the required packages from [requirements.txt](../requirements.txt).
+
+```
+pip install -r requirements.txt
+```
+
 Single requests can be made from the command line using `single_request.py`, while multiple requests can be made using `multiple_requests_from_file.py` providing a json file of the job specifications for these requests.
 
 ## Examples

@@ -4,9 +4,15 @@ This client is intended for people with some familiarity with python. If you are
 
 The `SyncAiAnimationClient` class in `animation_client.py` provides a client for the Emotech Sync AI Platform API to generate csv and fbx animation curve files. To generate content using the API a user needs their token, which can be found in the `Account Settings` section on [the website](https://lipsync-ai.bubbleapps.io/). 
 
-For a detailed overview of the arguments please see the [API Documentation]().
+For a detailed overview of the arguments please see the [API Documentation](https://emotech.gitbook.io/sync.ai-api-documentation-animation/).
 
 # Usage
+
+Create a virtual environment and install the required packages from [requirements.txt](../requirements.txt).
+
+```
+pip install -r requirements.txt
+```
 
 Single requests can be made from the command line using `single_request.py`, while multiple requests can be made using `multiple_requests_from_file.py` providing a json file of the job specifications for these requests.
 
