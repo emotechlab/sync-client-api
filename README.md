@@ -1,6 +1,8 @@
 # Sync-AI API Client
 
-This is the official python client to use with the Emotech Sync-AI platform. The client can be used for two main purposes:
+This is the official python client to use with the Emotech Sync-AI platform. It is intended for people with some familiarity with python. If you are unfamiliar with python try out our [web application](https://lipsync-ai.bubbleapps.io/).
+
+The client can be used for two main purposes:
 
 - [Video Generation](VideoGeneration/)
 - [Animation Curve Generation](AnimationCurveGeneration/)
