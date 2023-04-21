@@ -4,7 +4,7 @@ This client is intended for people with some familiarity with python. If you are
 
 The `SyncAiVideoClient` class in `video_client.py` provides a client for the Emotech Sync AI Platform API to generate avatar videos. To generate content using the API a user needs their token, which can be found in the `Account Settings` section on [the website](https://lipsync-ai.bubbleapps.io/). 
 
-For a detailed overview of the arguments please see the [API Documentation]().
+For a detailed overview of the arguments please see the [API Documentation](https://emotech.gitbook.io/sync.ai-api-documentation-video).
 
 # Usage
 
