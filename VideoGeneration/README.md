@@ -16,6 +16,10 @@ pip install -r requirements.txt
 
 Single requests can be made from the command line using `single_request.py`, while multiple requests can be made using `multiple_requests_from_file.py` providing a json file of the job specifications for these requests.
 
+### SSML Tags
+
+SSML tags can be used within the `text` field to control the prosody of the generated speech, and also the expression on the avatar. See the [API Documentation]() for more details.
+
 ## Examples
 
 ### Single Requests
@@ -39,6 +43,10 @@ Using a url to an audio file that is on the local machine. The `text` transcript
 python single_request.py --language en-US --token USERS_TOKEN --output_file my_video.mp4 --audio_url https://www.awebsite.com/audio_file.wav --text "A text for the sync AI platform"
 ```
 
+Using ssml tags in the text:
+```
+python single_request.py --language en-US --token USERS_TOKEN --output_file animation_curve.csv --output_type csv --text "<speak>Here is a pause <break time='1s'/> and now <emo:express-as style='happy' styledegree='1.0'> the expression is happy</emo:express-as><\speak>" --actor female
+```
 
 ### Multiple Requests from file
 

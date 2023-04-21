@@ -78,6 +78,10 @@ class SyncAiAnimationClient:
         if not actor and not tts_voice and not audio_url and not audio_file:
             raise Exception("At least one of actor, tts_voice, audio_url, or audio_file must be supplied.")
 
+        is_ssml = False
+        if "<speak>" in text:
+            is_ssml = True
+
         # set emotion and level
         emotion_obj = None
         if emotion:
@@ -93,6 +97,7 @@ class SyncAiAnimationClient:
             "tts_params": get_tts_params(tts_voice, tts_speed),
             "actor": actor,
             "output": {"type": output_type},
+            "is_ssml": is_ssml,
             "wait_time": None,
         }
 

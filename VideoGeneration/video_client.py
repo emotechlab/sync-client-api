@@ -64,6 +64,10 @@ class SyncAiVideoClient():
         if audio_url and audio_file:
             raise Exception("Only one of audio_file or audio_url should be supplied.")
 
+        is_ssml = False
+        if "<speak>" in text:
+            is_ssml = True
+
         # set emotion and level
         emotion_obj = None
         if emotion:
@@ -95,6 +99,7 @@ class SyncAiVideoClient():
             "language": language,
             "tts_params": get_tts_params(tts_voice, tts_speed),
             "output": output,
+            "is_ssml": is_ssml,
             "wait_time": None,
         }
 
