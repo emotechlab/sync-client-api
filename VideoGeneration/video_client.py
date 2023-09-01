@@ -22,7 +22,7 @@ class SyncAiVideoClient():
 
     def __init__(self, token, url=None):
         if not url:
-            self.url = "https://lipsync-ai.emotechlab.com/lipsync/"
+            self.url = "https://lipsync-ai.api.emotechlab.com/lipsync"
         
         self.token = token
         self.valid_fields = ['language', 'actor', 'text', 'camera', 'background_rgb', 'sentences_file', 'tts_voice', 'tts_speed', 'target_rig', 'audio_url', 'audio_file', 'emotion', 'emotion_level', 'token', 'frame_height', 'frame_width', 'output_dir', 'output_file']
