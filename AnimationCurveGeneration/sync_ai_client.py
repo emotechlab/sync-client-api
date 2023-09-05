@@ -2,6 +2,7 @@ import json
 import os
 from tqdm import tqdm
 import requests
+import wget
 
 
 def parse_video_resolution(video_resolution):
@@ -44,7 +45,7 @@ class SyncAiClient:
 
     def __init__(self, token, url=None):
         if not url:
-            self.url = "https://lipsync-ai.emotechlab.com/lipsync/"
+            self.url = "https://lipsync-ai.api.emotechlab.com/lipsync"
         
         self.token = token
 
@@ -64,15 +65,12 @@ class SyncAiClient:
             elif status["status"] == "failed":
                 print("Job {} failed with: {}".format(job_id, status))
                 return status
-        resp = requests.get(os.path.join(self.url, f"download?jobId={job_id}&token={self.token}"))
-        print(resp.status_code)
-        print(resp.json())
-        if resp.status_code != 200:
-            print("Download failed: ", resp)
-        else:
-            # File is returned in bytes in the response
-            with open(save_file, "wb") as fp:
-                fp.write(resp.content)
+        resp = requests.get(os.path.join(self.url, f"download?jobId={job_id}&token={self.token}")).json()
+        
+        if "url" not in resp:
+            raise Exception("Download failed: ", resp)
+        
+        wget.download(resp["url"], save_file)
 
         return None
 

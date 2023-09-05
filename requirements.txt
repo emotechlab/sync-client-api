@@ -4,3 +4,4 @@ idna==3.4
 requests==2.28.2
 tqdm==4.65.0
 urllib3==1.26.15
+wget==3.2
