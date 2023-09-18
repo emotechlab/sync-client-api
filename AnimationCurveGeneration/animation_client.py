@@ -2,6 +2,7 @@ import json
 import os
 from tqdm import tqdm
 import requests
+import wget
 
 
 def file_extension_from_output_type(output_type):
@@ -31,7 +32,7 @@ class SyncAiAnimationClient:
 
     def __init__(self, token, url=None):
         if not url:
-            self.url = "https://lipsync-ai.emotechlab.com/lipsync/"
+            self.url = "https://lipsync-ai.api.emotechlab.com/lipsync/"
         
         self.token = token
 
@@ -54,16 +55,12 @@ class SyncAiAnimationClient:
         
         # get file extension from the save_file
         download_file = job_id + "." + save_file.split(".")[-1]
-        resp = requests.get(os.path.join(self.url, f"download?fileName={download_file}&token={self.token}"))
+        resp = requests.get(os.path.join(self.url, f"download?fileName={download_file}&token={self.token}")).json()
 
-        try: 
-            # Download failed if the response is json
-            resp_json = resp.json()
-            print("Download failed: ", resp_json)
-        except:
-            # File is returned in bytes in the response
-            with open(save_file, "wb") as fp:
-                fp.write(resp.content)
+        if "url" not in resp:
+            raise Exception("Download failed: ", resp)
+        
+        wget.download(resp["url"], save_file)
 
         return None
 
